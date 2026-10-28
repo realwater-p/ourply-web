@@ -4,50 +4,95 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
-  <title>Team 초대 | OURPLY</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#000000">
+  <title>팀 초대 | OURPLY</title>
+  <meta name="description" content="OURPLY에서 함께 연주할 팀 초대장이 도착했어요.">
+  <meta property="og:title" content="OURPLY | TEAM INVITE">
+  <meta property="og:description" content="함께 연주할 시간. OURPLY 팀 초대장을 확인하세요.">
   <style>
-    .invite-logo-header { display: flex; justify-content: center; padding: 32px 16px 0; background: #000; }
-    .invite-logo { display: block; width: 70vw; max-width: 260px; height: auto; object-fit: contain; }
-    .invite-wrap { max-width: 640px; margin: 0 auto; padding: 72px 6vw 96px; }
-    .invite-wrap h1 { font-size: clamp(36px, 7vw, 58px); line-height: 1.1; }
-    .invite-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-    .invite-actions button, .invite-actions a { min-height: 48px; border-radius: 12px; padding: 0 20px; display: inline-flex; align-items: center; justify-content: center; font: 700 14px Arial, sans-serif; cursor: pointer; }
-    .invite-actions button { border: 0; background: #DDEF73; color: #111315; }
-    .invite-actions a { border: 1px solid #41454A; background: #1B1D20; color: #E2E4E5; }
-    .invite-link { margin-top: 24px; overflow-wrap: anywhere; font-size: 12px; color: #A1A6AC; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: #000; color: #f1f2ef; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
+    .page { width: min(100%, 480px); margin: 0 auto; padding: 38px 24px 32px; text-align: center; }
+    .logo { display: block; width: min(55vw, 210px); height: auto; margin: 0 auto 44px; }
+    .eyebrow, .card-label { color: #a1a6ac; font-size: 11px; font-weight: 700; letter-spacing: .16em; }
+    h1 { margin: 16px 0 10px; font-size: clamp(32px, 8vw, 40px); line-height: 1.25; letter-spacing: -.04em; }
+    .subtitle { margin: 0; color: #a1a6ac; font-size: 15px; line-height: 1.6; }
+    .team-card { margin: 34px 0 24px; padding: 24px 18px; border: 1px solid #34383c; border-radius: 16px; background: #1b1d20; }
+    .team-name { margin: 13px 0 11px; font-size: clamp(24px, 7vw, 32px); font-weight: 700; line-height: 1.3; overflow-wrap: anywhere; }
+    .team-caption { margin: 0; color: #a1a6ac; font-size: 13px; line-height: 1.5; }
+    .primary { display: flex; width: 100%; min-height: 52px; align-items: center; justify-content: center; border: 0; border-radius: 12px; background: #ddef73; color: #111315; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; }
+    .primary:disabled { opacity: .45; cursor: default; }
+    .install { margin-top: 35px; }
+    .install-title { margin: 0 0 13px; color: #a1a6ac; font-size: 13px; }
+    .stores { display: flex; gap: 10px; }
+    .store { display: flex; flex: 1; min-width: 0; min-height: 48px; align-items: center; justify-content: center; border: 1px solid #41454a; border-radius: 12px; background: #1b1d20; color: #e2e4e5; font-size: 14px; font-weight: 600; text-decoration: none; }
+    .store-unavailable { opacity: .55; }
+    .footer { margin: 48px 0 0; color: #777d83; font-size: 11px; font-weight: 700; letter-spacing: .16em; }
+    @media (max-width: 375px) { .page { padding-left: 18px; padding-right: 18px; } .logo { margin-bottom: 38px; } }
   </style>
 </head>
 <body>
-  <header class="invite-logo-header"><img class="invite-logo" src="assets/ourply_logo_type_02.png.png" alt="OURPLY"></header>
-  <main class="invite-wrap">
-    <div class="eyebrow">TEAM INVITE</div>
-    <h1>함께 연주해요.</h1>
-    <p id="status">OURPLY 앱에서 팀 초대를 확인하고 참여를 요청할 수 있습니다.</p>
-    <div class="invite-actions" id="actions" hidden>
-      <button id="open" type="button">OURPLY 앱 열기</button>
-      <button id="copy" type="button">초대 링크 복사</button>
+  <main class="page">
+    <img class="logo" src="assets/ourply_logo_type_02.png.png" alt="OURPLY" width="2000" height="364">
+    <div class="eyebrow">YOU'RE INVITED / OURPLY</div>
+    <h1>함께 연주할 시간.</h1>
+    <p class="subtitle">당신을 위한 팀 초대장이 도착했어요.</p>
+    <section class="team-card" aria-label="팀 초대 정보">
+      <div class="card-label">TEAM INVITATION</div>
+      <div class="team-name" id="team-name" aria-live="polite">팀 정보를 확인하고 있어요.</div>
+      <p class="team-caption" id="status">이 팀에서 함께 음악을 만들어 보세요.</p>
+    </section>
+    <button class="primary" id="open" type="button" disabled>OURPLY 앱에서 참여하기</button>
+    <div class="install">
+      <p class="install-title">아직 OURPLY가 없으신가요?</p>
+      <div class="stores">
+        <a class="store" href="https://apps.apple.com/kr/app/ourply/id6822912174" rel="noopener noreferrer">App Store</a>
+        <span class="store store-unavailable" aria-label="Google Play 설치 링크 준비 중">Google Play 준비 중</span>
+      </div>
     </div>
-    <p class="muted" id="install" hidden>앱이 설치되지 않았다면 앱 스토어에서 OURPLY를 설치한 뒤, 받은 초대 링크를 다시 열어주세요. 이 링크는 공유한 메시지에 그대로 남아 있습니다.</p>
-    <p class="invite-link" id="link"></p>
+    <p class="footer">OUR LIST. OUR PLAY.</p>
   </main>
   <script>
+    const SUPABASE_URL = 'https://rcjveqplbexigshjxdpg.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_oyx9zmjaX73Pu6U3bbrIMA_Lfhiz9yz';
     const token = new URLSearchParams(location.search).get('credential') || '';
-    const valid = /^[a-f0-9]{64}$/.test(token);
+    const teamName = document.getElementById('team-name');
     const status = document.getElementById('status');
-    if (valid) {
-      document.getElementById('actions').hidden = false;
-      document.getElementById('install').hidden = false;
-      const inviteUrl = `${location.origin}${location.pathname}?credential=${encodeURIComponent(token)}`;
-      document.getElementById('link').textContent = inviteUrl;
-      document.getElementById('open').onclick = () => { location.href = `setbox://invite?credential=${encodeURIComponent(token)}`; };
-      document.getElementById('copy').onclick = async () => {
-        try { await navigator.clipboard.writeText(inviteUrl); status.textContent = '초대 링크를 복사했습니다.'; }
-        catch { status.textContent = '아래 초대 링크를 길게 눌러 복사해 주세요.'; }
-      };
-    } else {
-      status.textContent = '초대 링크가 올바르지 않습니다. 팀 오너에게 새 링크를 요청해 주세요.';
+    const openButton = document.getElementById('open');
+
+    async function resolveInvite() {
+      if (!/^[a-f0-9]{64}$/.test(token)) {
+        teamName.textContent = '초대 링크를 확인해 주세요.';
+        status.textContent = '올바르지 않은 링크입니다. 팀 오너에게 새 링크를 요청해 주세요.';
+        return;
+      }
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/resolve_team_invite`, {
+          method: 'POST',
+          headers: { apikey: SUPABASE_PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_credential: token }),
+          cache: 'no-store',
+        });
+        if (!response.ok) throw new Error('lookup_failed');
+        const invite = await response.json();
+        if (!invite) {
+          teamName.textContent = '초대 링크가 만료되었어요.';
+          status.textContent = '팀 오너에게 새로운 링크를 요청해 주세요.';
+          return;
+        }
+        if (typeof invite.name !== 'string' || !invite.name.trim()) throw new Error('invalid_response');
+        teamName.textContent = invite.name;
+        openButton.disabled = false;
+        openButton.addEventListener('click', () => {
+          location.href = `setbox://invite?credential=${encodeURIComponent(token)}`;
+        });
+      } catch {
+        teamName.textContent = '팀 정보를 불러오지 못했어요.';
+        status.textContent = '잠시 후 다시 열어 주세요.';
+      }
     }
+    void resolveInvite();
   </script>
 </body>
 </html>
