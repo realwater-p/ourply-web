@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Team 초대 | OURPLY</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .invite-wrap { max-width: 640px; margin: 0 auto; padding: 72px 6vw 96px; }
+    .invite-wrap h1 { font-size: clamp(36px, 7vw, 58px); line-height: 1.1; }
+    .invite-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .invite-actions button, .invite-actions a { min-height: 48px; border-radius: 12px; padding: 0 20px; display: inline-flex; align-items: center; justify-content: center; font: 700 14px Arial, sans-serif; cursor: pointer; }
+    .invite-actions button { border: 0; background: #DDEF73; color: #111315; }
+    .invite-actions a { border: 1px solid #41454A; background: #1B1D20; color: #E2E4E5; }
+    .invite-link { margin-top: 24px; overflow-wrap: anywhere; font-size: 12px; color: #A1A6AC; }
+  </style>
+</head>
+<body>
+  <header><a class="brand" href="./">OURPLY</a></header>
+  <main class="invite-wrap">
+    <div class="eyebrow">TEAM INVITE</div>
+    <h1>함께 연주해요.</h1>
+    <p id="status">OURPLY 앱에서 팀 초대를 확인하고 참여를 요청할 수 있습니다.</p>
+    <div class="invite-actions" id="actions" hidden>
+      <button id="open" type="button">OURPLY 앱 열기</button>
+      <button id="copy" type="button">초대 링크 복사</button>
+    </div>
+    <p class="muted" id="install" hidden>앱이 설치되지 않았다면 앱 스토어에서 OURPLY를 설치한 뒤, 받은 초대 링크를 다시 열어주세요. 이 링크는 공유한 메시지에 그대로 남아 있습니다.</p>
+    <p class="invite-link" id="link"></p>
+  </main>
+  <script>
+    const token = new URLSearchParams(location.search).get('credential') || '';
+    const valid = /^[a-f0-9]{64}$/.test(token);
+    const status = document.getElementById('status');
+    if (valid) {
+      document.getElementById('actions').hidden = false;
+      document.getElementById('install').hidden = false;
+      const inviteUrl = `${location.origin}${location.pathname}?credential=${encodeURIComponent(token)}`;
+      document.getElementById('link').textContent = inviteUrl;
+      document.getElementById('open').onclick = () => { location.href = `setbox://invite?credential=${encodeURIComponent(token)}`; };
+      document.getElementById('copy').onclick = async () => {
+        try { await navigator.clipboard.writeText(inviteUrl); status.textContent = '초대 링크를 복사했습니다.'; }
+        catch { status.textContent = '아래 초대 링크를 길게 눌러 복사해 주세요.'; }
+      };
+    } else {
+      status.textContent = '초대 링크가 올바르지 않습니다. 팀 오너에게 새 링크를 요청해 주세요.';
+    }
+  </script>
+</body>
+</html>
